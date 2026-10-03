@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CyberSafe - Cybersecurity awareness and training portal">
+  <title>CyberSafe | Awareness & Training Portal</title>
+
+  <!-- Apply the saved theme and text size before the page paints, so there is no flash of the wrong theme -->
+  <script>
+    (function () {
+      try {
+        var theme = localStorage.getItem('cybersafe-theme');
+        if (!theme) theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+        var size = localStorage.getItem('cybersafe-font');
+        if (size) document.documentElement.style.fontSize = size + '%';
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Icon sprite: icons are drawn once here and reused with <use href="#id"> -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+      <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M16 7l3 3M14 9l2 2"/></symbol>
+      <symbol id="i-bug" viewBox="0 0 24 24"><rect x="8" y="7" width="8" height="12" rx="4"/><path d="M9 7a3 3 0 0 1 6 0M4 12h4M16 12h4M5 19l3-2M19 19l-3-2M5 6l3 2M19 6l-3 2"/></symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+      <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10.5 10.5 0 0 1 14 0M8.5 16a5.5 5.5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1"/></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-14 5.3M4 12a8 8 0 0 1 14-5.3M18 3v4h-4M6 21v-4h4"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/><path d="m10 15.5 1.7 1.7L14.5 14"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+      <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M3 12h4l2-6 4 12 2-6h6"/></symbol>
+      <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    </defs>
+  </svg>
+
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="CyberSafe home">
+      <span class="brand-mark">CS</span>
+      <span>Cyber<span class="brand-accent">Safe</span><small>LEARN • PREVENT • PROTECT</small></span>
+    </a>
+
+    <nav id="nav" aria-label="Main">
+      <a class="nav-link active" href="#home">Home</a>
+      <a class="nav-link" href="#learn">Learn</a>
+      <a class="nav-link" href="#flashcards">Flashcards</a>
+      <a class="nav-link" href="#quiz">Quick Quiz</a>
+      <a class="nav-link" href="#resources">Resources</a>
+      <a class="nav-link" href="#about">About</a>
+    </nav>
+
+    <div class="tools">
+      <!-- Text size: smaller / larger -->
+      <div class="font-controls" role="group" aria-label="Text size">
+        <button class="tool-btn small" id="fontDown" type="button" aria-label="Make text smaller" title="Smaller text">A</button>
+        <button class="tool-btn large" id="fontUp" type="button" aria-label="Make text larger" title="Larger text">A</button>
+      </div>
+      <!-- Light / dark mode -->
+      <button class="tool-btn theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" title="Switch theme">
+        <svg class="icon icon-moon"><use href="#i-moon"/></svg>
+        <svg class="icon icon-sun"><use href="#i-sun"/></svg>
+      </button>
+    </div>
+
+    <a class="header-cta" href="#learn">Start learning →</a>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+      <svg class="icon"><use href="#i-menu"/></svg>
+    </button>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="pulse"></span>Your digital safety starts here</div>
+          <h1>Think before you <span class="gradient-text">click.</span> Stay secure.</h1>
+          <p class="hero-text">Most online scams work because we're rushed, not because we're careless. Learn the habits that keep you safe, in short lessons you can finish over a cup of tea.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#learn">Explore lessons →</a>
+            <a class="btn btn-ghost" href="#flashcards">Try flashcards</a>
+          </div>
+          <p class="hero-note"><svg class="icon"><use href="#i-check"/></svg> Free, beginner friendly, and no sign-up needed</p>
+        </div>
+
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <div class="shield"><div class="shield-inner"><svg class="icon"><use href="#i-lock"/></svg></div></div>
+          <div class="float-card card-top"><span class="mini-icon green"><svg class="icon"><use href="#i-check"/></svg></span><span><b>Protection active</b><small>Good digital habits</small></span></div>
+          <div class="float-card card-bottom"><span class="mini-icon purple"><svg class="icon"><use href="#i-pulse"/></svg></span><span><b>Threat awareness</b><small>Stay one step ahead</small></span></div>
+          <span class="art-dot dot-a"></span><span class="art-dot dot-b"></span><span class="art-dot dot-c"></span>
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <div><strong>6</strong><span>Core topics</span></div>
+        <div><strong>12</strong><span>Flashcards</span></div>
+        <div><strong>5</strong><span>Quiz questions</span></div>
+        <div class="stat-note"><svg class="icon"><use href="#i-spark"/></svg> Practical knowledge for everyday life</div>
+      </div>
+    </section>
+
+    <!-- LEARN -->
+    <section class="section learn-section" id="learn">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">Learning path</div>
+          <h2>Build your cyber <span class="gradient-text">confidence.</span></h2>
+          <p>Six short guides, written in plain language. Pick any one to start.</p>
+        </div>
+        <span class="section-tag">01 / LEARN</span>
+      </div>
+
+      <div class="topic-grid">
+        <article class="topic-card">
+          <div class="topic-icon coral"><svg class="icon"><use href="#i-mail"/></svg></div>
+          <span class="topic-level">BEGINNER · 4 MIN</span>
+          <h3>Phishing & scams</h3>
+          <p>Spot suspicious messages, fake links, and the tricks scammers rely on.</p>
+          <button class="text-button" data-open="phishing">Explore topic ↗</button>
+        </article>
+        <article class="topic-card">
+          <div class="topic-icon blue"><svg class="icon"><use href="#i-key"/></svg></div>
+          <span class="topic-level">BEGINNER · 3 MIN</span>
+          <h3>Password safety</h3>
+          <p>Create stronger passwords and see why reusing them is risky.</p>
+          <button class="text-button" data-open="passwords">Explore topic ↗</button>
+        </article>
+        <article class="topic-card">
+          <div class="topic-icon purple"><svg class="icon"><use href="#i-bug"/></svg></div>
+          <span class="topic-level">BEGINNER · 4 MIN</span>
+          <h3>Malware basics</h3>
+          <p>Understand viruses, ransomware, and spyware, and how to download safely.</p>
+          <button class="text-button" data-open="malware">Explore topic ↗</button>
+        </article>
+        <article class="topic-card">
+          <div class="topic-icon green"><svg class="icon"><use href="#i-eye"/></svg></div>
+          <span class="topic-level">BEGINNER · 3 MIN</span>
+          <h3>Online privacy</h3>
+          <p>Share less, choose wisely, and stay in control of your personal data.</p>
+          <button class="text-button" data-open="privacy">Explore topic ↗</button>
+        </article>
+        <article class="topic-card">
+          <div class="topic-icon amber"><svg class="icon"><use href="#i-wifi"/></svg></div>
+          <span class="topic-level">BEGINNER · 3 MIN</span>
+          <h3>Safe Wi-Fi</h3>
+          <p>Use public networks with care and know what a secure connection means.</p>
+          <button class="text-button" data-open="wifi">Explore topic ↗</button>
+        </article>
+        <article class="topic-card">
+          <div class="topic-icon teal"><svg class="icon"><use href="#i-refresh"/></svg></div>
+          <span class="topic-level">BEGINNER · 2 MIN</span>
+          <h3>Updates & backups</h3>
+          <p>Keep your devices current and your important files recoverable.</p>
+          <button class="text-button" data-open="updates">Explore topic ↗</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- FLASHCARDS -->
+    <section class="flash-section" id="flashcards">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">Quick revision</div>
+          <h2>Learn it. <span class="gradient-text">Flip it.</span> Remember it.</h2>
+          <p>Tap a card to see the answer, then use the arrows to move through the deck.</p>
+        </div>
+        <span class="section-tag">02 / FLASHCARDS</span>
+      </div>
+
+      <div class="flash-layout">
+        <div class="flash-intro">
+          <div class="flash-badge">INTERACTIVE LEARNING</div>
+          <h3>Cybersecurity, one card at a time.</h3>
+          <p>Short prompts help you recall the important ideas without feeling overwhelmed.</p>
+          <div class="flash-progress">
+            <div class="progress-label"><span>YOUR PROGRESS</span><strong id="flashCount">01 / 12</strong></div>
+            <div class="progress-track"><span id="flashProgress"></span></div>
+          </div>
+        </div>
+
+        <div class="flash-area">
+          <button class="flash-card" id="flashCard" type="button" aria-label="Flip flashcard">
+            <span class="card-topline"><span id="cardCategory">FOUNDATIONS</span><span class="flip-hint">TAP TO FLIP ↻</span></span>
+            <span class="card-number" id="cardNumber">01</span>
+            <span class="card-question" id="cardText">What is cybersecurity?</span>
+            <span class="card-answer-label" id="answerLabel">THINK ABOUT IT</span>
+          </button>
+          <div class="flash-controls">
+            <button class="round-btn" id="prevCard" type="button" aria-label="Previous flashcard">←</button>
+            <button class="btn btn-dark" id="flipButton" type="button">Reveal answer ↻</button>
+            <button class="round-btn" id="nextCard" type="button" aria-label="Next flashcard">→</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section class="quiz-section" id="quiz">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">Knowledge check</div>
+          <h2>Put your knowledge <span class="gradient-text">to the test.</span></h2>
+          <p>Five quick questions. You'll get a short explanation after each one.</p>
+        </div>
+        <span class="section-tag">03 / QUIZ</span>
+      </div>
+
+      <div class="quiz-box">
+        <div class="quiz-side">
+          <span class="quiz-symbol">?</span>
+          <h3>Quick cyber quiz</h3>
+          <p>Five questions, instant feedback, no pressure.</p>
+          <div class="quiz-mini"><span>✦</span> Practice makes safer habits.</div>
+        </div>
+
+        <div class="quiz-main" id="quizMain">
+          <div class="quiz-meta"><span id="quizStep">QUESTION 01 / 05</span><span class="quiz-score">SCORE <b id="quizScore">0</b></span></div>
+          <div class="quiz-progress"><span id="quizProgress"></span></div>
+          <h3 id="questionText">Which is a sign of a possible phishing email?</h3>
+          <div class="options" id="options"></div>
+          <div class="quiz-bottom">
+            <span id="quizFeedback" aria-live="polite">Choose one answer to continue.</span>
+            <button class="btn btn-primary" id="nextQuestion" type="button" disabled>Next question →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESOURCES -->
+    <section class="resources-section" id="resources">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">Keep exploring</div>
+          <h2>Useful <span class="gradient-text">resources.</span></h2>
+          <p>Trusted places to keep learning about digital safety.</p>
+        </div>
+        <span class="section-tag">04 / RESOURCES</span>
+      </div>
+
+      <div class="resource-grid">
+        <a class="resource-card" href="https://staysafeonline.org/" target="_blank" rel="noopener">
+          <span class="resource-icon">↗</span><span class="resource-type">AWARENESS</span>
+          <h3>Stay Safe Online</h3>
+          <p>Practical guidance for safer everyday internet use.</p>
+          <span class="resource-link">Visit website ↗</span>
+        </a>
+        <a class="resource-card" href="https://www.cisa.gov/secure-our-world" target="_blank" rel="noopener">
+          <span class="resource-icon">↗</span><span class="resource-type">BEST PRACTICES</span>
+          <h3>CISA: Secure Our World</h3>
+          <p>Learn about strong passwords, MFA, updates, and phishing.</p>
+          <span class="resource-link">Visit website ↗</span>
+        </a>
+        <a class="resource-card" href="https://www.cert-in.org.in/" target="_blank" rel="noopener">
+          <span class="resource-icon">↗</span><span class="resource-type">INDIA</span>
+          <h3>CERT-In</h3>
+          <p>India's national cyber incident response team and security advisories.</p>
+          <span class="resource-link">Visit website ↗</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about-section" id="about">
+      <div class="about-panel">
+        <div class="about-copy">
+          <div class="eyebrow">About the project</div>
+          <h2>Making cyber safety <span class="gradient-text">simple.</span></h2>
+          <p>CyberSafe is a beginner-friendly awareness and training portal. It turns essential digital safety ideas into short lessons and interactive revision, so anyone can pick them up quickly.</p>
+          <div class="about-pills"><span>Beginner friendly</span><span>Interactive</span><span>Easy to expand</span></div>
+        </div>
+        <div class="about-visual">
+          <div class="about-ring"><span>CS</span></div>
+          <div class="about-caption">LEARN • PREVENT • PROTECT</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a class="brand footer-brand" href="#home">
+      <span class="brand-mark">CS</span>
+      <span>Cyber<span class="brand-accent">Safe</span><small>LEARN • PREVENT • PROTECT</small></span>
+    </a>
+    <p>Cyber awareness for a safer digital world.</p>
+    <a href="#home" class="back-top">Back to top ↑</a>
+    <div class="footer-bottom"><span>© 2026 CyberSafe · Student project prototype</span><span>Stay curious. Stay secure.</span></div>
+  </footer>
+
+  <!-- Topic pop-up (filled in by script.js) -->
+  <div class="modal-backdrop" id="topicModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <button class="modal-close" id="closeModal" type="button" aria-label="Close">×</button>
+      <span class="modal-kicker">CYBERSAFE LEARNING GUIDE</span>
+      <div class="modal-icon" id="modalIcon"></div>
+      <h2 id="modalTitle">Topic</h2>
+      <p id="modalDescription"></p>
+      <h3>Key things to remember</h3>
+      <ul id="modalPoints"></ul>
+      <div class="modal-tip"><strong>Safety tip</strong><span id="modalTip"></span></div>
+      <button class="btn btn-primary modal-done" id="modalDone" type="button">Got it ✓</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
